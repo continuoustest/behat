@@ -1,0 +1,9 @@
+default:
+  extensions:
+    Behat\MinkExtension:
+      base_url: https://apache24
+      sessions:
+        my_session:
+          goutte:
+            guzzle_parameters:
+              verify: false
