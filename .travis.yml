@@ -47,8 +47,10 @@ jobs:
         #- ./vendor/bin/behat -c ./behat.yml --colors -f pretty -vv
 
     - stage: deploy
+      name: Deploy
       git:
         clone: false
+      script: skip
       deploy:
         - provider: script
           script:
