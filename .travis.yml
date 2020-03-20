@@ -21,29 +21,28 @@ jobs:
       name: Packages Test
       script:
         - composer install --no-interaction --prefer-dist --no-progress --no-suggest
-        - mkdir -p $HOME/.cache/$TRAVIS_BUILD_ID/test
-        - cp -r . $HOME/.cache/$TRAVIS_BUILD_ID/test/
+        - mkdir -p $HOME/.cache/$TRAVIS_BUILD_ID
+        - tar -czf $HOME/.cache/$TRAVIS_BUILD_ID/test.tar.gz .
 
     - name: Package Dist
       script:
         - composer install --no-interaction --prefer-dist --no-progress --no-suggest --no-dev
         - echo "dist package" > hello
-        - mkdir -p $HOME/.cache/$TRAVIS_BUILD_ID/dist
-        - cp -r . $HOME/.cache/$TRAVIS_BUILD_ID/dist/
+        - tar -czf $HOME/.cache/$TRAVIS_BUILD_ID/dist.tar.gz .
 
     - stage: testing
       name: Linter
       git:
         clone: false
       script:
-        - cp -r $HOME/.cache/$TRAVIS_BUILD_ID/test/* .
+        - tar -xzf $HOME/.cache/$TRAVIS_BUILD_ID/test.tar.gz
         - php -l src/dynamic.php
 
     - name: Behat
       git:
       clone: false
       script:
-        - cp -r $HOME/.cache/$TRAVIS_BUILD_ID/test/* .
+        - tar -xzf $HOME/.cache/$TRAVIS_BUILD_ID/test.tar.gz
         #- ./vendor/bin/behat -c ./behat.yml --colors -f pretty -vv
 
     - stage: deploy
@@ -51,6 +50,6 @@ jobs:
       git:
         clone: false
       script:
-        - cp -r $HOME/.cache/$TRAVIS_BUILD_ID/dist/* .
+        - tar -xzf $HOME/.cache/$TRAVIS_BUILD_ID/dist.tar.gz
         - ls -lh
         - cat hello
