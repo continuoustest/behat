@@ -27,23 +27,26 @@ jobs:
 
     - stage: testing
       name: Linter
-      clone: false
+      git:
+        clone: false
       script:
         - echo 'Hello testing 1'
-        - cp -r HOME/.cache/$TRAVIS_BUILD_ID/test/* .
+        - cp -r $HOME/.cache/$TRAVIS_BUILD_ID/test/* .
         - cat hello
 
     - name: Behat
-      clone: false
+      git:
+        clone: false
       script:
         - echo 'Hello testing 2'
-        - cp -r HOME/.cache/$TRAVIS_BUILD_ID/test/* .
+        - cp -r $HOME/.cache/$TRAVIS_BUILD_ID/test/* .
         - cat hello
 
     - stage: deploy
-      clone: false
+      git:
+        clone: false
       script:
         - echo 'Hello deploy'
-        - cp -r HOME/.cache/$TRAVIS_BUILD_ID/dist/* .
+        - cp -r $HOME/.cache/$TRAVIS_BUILD_ID/dist/* .
         - cat hello
 
