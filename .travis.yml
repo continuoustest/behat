@@ -39,13 +39,13 @@ jobs:
         - cp -r $HOME/.cache/$TRAVIS_BUILD_ID/test/* .
         - php -l src/dynamic.php
 
-    - name: Behat
-      git:
-        clone: false
-      skip: true
-      script:
-        - cp -r $HOME/.cache/$TRAVIS_BUILD_ID/test/* .
-        - ./vendor/bin/behat -c ./behat.yml --colors -f pretty -vv
+    allow_failures:
+      - name: Behat
+        git:
+         clone: false
+       script:
+         - cp -r $HOME/.cache/$TRAVIS_BUILD_ID/test/* .
+         - ./vendor/bin/behat -c ./behat.yml --colors -f pretty -vv
 
     - stage: deploy
       git:
