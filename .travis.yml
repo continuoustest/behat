@@ -16,6 +16,7 @@ jobs:
       name: Packages Test
       script:
         - echo 'Hello package'
+        - find $HOME/.cache/
         - mkdir $HOME/.cache/test
         - cp -r . $HOME/.cache/test/
 
