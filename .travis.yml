@@ -42,6 +42,7 @@ jobs:
     - name: Behat
       git:
         clone: false
+      skip: true
       script:
         - cp -r $HOME/.cache/$TRAVIS_BUILD_ID/test/* .
         - ./vendor/bin/behat -c ./behat.yml --colors -f pretty -vv
