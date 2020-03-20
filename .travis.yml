@@ -47,10 +47,11 @@ jobs:
         #- ./vendor/bin/behat -c ./behat.yml --colors -f pretty -vv
 
     - stage: deploy
-      git:
-        clone: false
-      script:
-        - cp -r $HOME/.cache/$TRAVIS_BUILD_ID/dist/* .
-        - cat hello
-        - ls -lh
-
+      deploy:
+        - provider: script
+          git:
+            clone: false
+          script:
+            - cp -r $HOME/.cache/$TRAVIS_BUILD_ID/dist/* .
+            - cat hello
+            - ls -lh
