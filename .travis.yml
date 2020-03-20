@@ -51,9 +51,9 @@ jobs:
       git:
         clone: false
       script: skip
-      skip_cleanup: true
       deploy:
         - provider: script
+          skip_cleanup: true
           on:
             branch: feat/travis
           script:
