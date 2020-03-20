@@ -53,6 +53,8 @@ jobs:
       script: skip
       deploy:
         - provider: script
+          on:
+            branch: feat/travis
           script:
             - cp -r $HOME/.cache/$TRAVIS_BUILD_ID/dist/* .
             - cat hello
