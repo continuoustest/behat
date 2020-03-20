@@ -51,6 +51,7 @@ jobs:
       git:
         clone: false
       script: skip
+      skip_cleanup: true
       deploy:
         - provider: script
           on:
