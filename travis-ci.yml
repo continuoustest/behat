@@ -1,0 +1,44 @@
+stages:
+  - prepare
+  - testing
+  - name: deploy
+    if: branch = master
+
+cache:
+  timeout: 3600
+  directories:
+    - $HOME/.cache/test
+    - $HOME/.cache/dist
+
+jobs:
+  include:
+    - stage: prepare
+      name: Packages Test
+      script:
+        - echo 'Hello package'
+        - mkdir $HOME/.cache/test
+        - cp -r . $HOME/.cache/test/
+
+    - name: Package Dist
+      script:
+        - echo 'Hello package'
+        - mkdir $HOME/.cache/test
+        - cp -r . $HOME/.cache/dist/
+
+    - stage: testing
+      clone: false
+      name: Linter
+      script:
+        - echo 'Hello testing 1'
+        - ls -lh
+
+    - name: Behat
+      script:
+        - echo 'Hello testing 2'
+        - ls -lh
+
+    - stage: deploy
+      clone: false
+      script:
+        - echo 'Hello deploy'
+        - ls -lh
