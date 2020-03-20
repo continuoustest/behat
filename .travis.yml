@@ -12,8 +12,7 @@ stages:
 cache:
   timeout: 3600
   directories:
-    - $HOME/.cache/$TRAVIS_BUILD_ID/test
-    - $HOME/.cache/$TRAVIS_BUILD_ID/dist
+    - $HOME/.cache/$TRAVIS_BUILD_ID
 
 jobs:
   include:
