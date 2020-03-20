@@ -2,44 +2,48 @@ stages:
   - prepare
   - testing
   - name: deploy
-    if: branch = master
+    if: branch = feat/travis
 
 cache:
   timeout: 3600
   directories:
-    - $HOME/.cache/test
-    - $HOME/.cache/dist
+    - $HOME/.cache/$TRAVIS_BUILD_ID/test
+    - $HOME/.cache/$TRAVIS_BUILD_ID/dist
 
 jobs:
   include:
     - stage: prepare
       name: Packages Test
       script:
-        - echo 'Hello package'
-        - find $HOME/.cache/
-        - mkdir $HOME/.cache/test
-        - cp -r . $HOME/.cache/test/
+        - echo 'Hello test package' > hello
+        - mkdir -p $HOME/.cache/$TRAVIS_BUILD_ID/test
+        - cp -r . $HOME/.cache/$TRAVIS_BUILD_ID/test/
 
     - name: Package Dist
       script:
-        - echo 'Hello package'
-        - mkdir $HOME/.cache/test
-        - cp -r . $HOME/.cache/dist/
+        - echo 'Hello deploy package' > hello
+        - mkdir -p $HOME/.cache/$TRAVIS_BUILD_ID/dist
+        - cp -r . $HOME/.cache/$TRAVIS_BUILD_ID/dist/
 
     - stage: testing
-      clone: false
       name: Linter
+      clone: false
       script:
         - echo 'Hello testing 1'
-        - ls -lh
+        - cp -r HOME/.cache/$TRAVIS_BUILD_ID/test/* .
+        - cat hello
 
     - name: Behat
+      clone: false
       script:
         - echo 'Hello testing 2'
-        - ls -lh
+        - cp -r HOME/.cache/$TRAVIS_BUILD_ID/test/* .
+        - cat hello
 
     - stage: deploy
       clone: false
       script:
         - echo 'Hello deploy'
-        - ls -lh
+        - cp -r HOME/.cache/$TRAVIS_BUILD_ID/dist/* .
+        - cat hello
+
