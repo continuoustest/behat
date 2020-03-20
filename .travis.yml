@@ -1,3 +1,8 @@
+language: php
+os: linux
+php:
+  - 7.3
+
 stages:
   - prepare
   - testing
@@ -15,13 +20,14 @@ jobs:
     - stage: prepare
       name: Packages Test
       script:
-        - echo 'Hello test package' > hello
+        - composer install --no-interaction --prefer-dist --no-progress --no-suggest
         - mkdir -p $HOME/.cache/$TRAVIS_BUILD_ID/test
         - cp -r . $HOME/.cache/$TRAVIS_BUILD_ID/test/
 
     - name: Package Dist
       script:
-        - echo 'Hello deploy package' > hello
+        - composer install --no-interaction --prefer-dist --no-progress --no-suggest --no-dev
+        - echo "dist package" > hello
         - mkdir -p $HOME/.cache/$TRAVIS_BUILD_ID/dist
         - cp -r . $HOME/.cache/$TRAVIS_BUILD_ID/dist/
 
@@ -30,23 +36,21 @@ jobs:
       git:
         clone: false
       script:
-        - echo 'Hello testing 1'
         - cp -r $HOME/.cache/$TRAVIS_BUILD_ID/test/* .
-        - cat hello
+        - php -l src/dynamic.php
 
     - name: Behat
       git:
         clone: false
       script:
-        - echo 'Hello testing 2'
         - cp -r $HOME/.cache/$TRAVIS_BUILD_ID/test/* .
-        - cat hello
+        - ./vendor/bin/behat -c ./behat.yml --colors -f pretty -vv
 
     - stage: deploy
       git:
         clone: false
       script:
-        - echo 'Hello deploy'
         - cp -r $HOME/.cache/$TRAVIS_BUILD_ID/dist/* .
         - cat hello
+        - ls -lh
 
